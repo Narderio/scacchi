@@ -1,0 +1,97 @@
+
+import matplotlib.pyplot as plt
+from Scacchiera import Scacchiera
+from Torre import Torre
+from Alfiere import Alfiere
+from Cavallo import Cavallo
+
+# Variabili globali per la selezione
+selezione = {'partenza': None, 'destinazione': None}
+scacchiera = None  # sarà inizializzata nel main
+
+def coord_da_click(event):
+    """Traduci coordinate matplotlib in coordinate scacchiera."""
+    if event.inaxes is None:
+        return None
+    col = int(round(event.xdata))
+    row = int(round(event.ydata))
+    if 0 <= col < 8 and 0 <= row < 8:
+        colonna = list('ABCDEFGH')[col]
+        riga = 8 - row
+        return [colonna, riga]
+    return None
+
+def on_click(event):
+    """Gestione click per selezionare e muovere pezzi."""
+    global selezione, scacchiera
+    pos = coord_da_click(event)
+    if pos is None:
+        return
+    if selezione['partenza'] is None:
+        pezzo = scacchiera.get_pezzo(pos)
+        if pezzo is not None:
+            selezione['partenza'] = pos
+            print(f"Selezionata partenza: {pos}")
+    else:
+        selezione['destinazione'] = pos
+        pezzo = scacchiera.get_pezzo(selezione['partenza'])
+        if pezzo and pezzo.verifica_mossa(selezione['destinazione']):
+            if scacchiera.get_pezzo(selezione['destinazione']) is not None:
+                scacchiera.togli(selezione['destinazione'])
+            scacchiera.togli(selezione['partenza'])
+            scacchiera.metti(pezzo, selezione['destinazione'])
+            print(f"Mossa: {selezione['partenza']} -> {selezione['destinazione']}")
+        else:
+            print("Mossa non valida")
+        selezione = {'partenza': None, 'destinazione': None}
+        plt.close()  # Chiudi la finestra per ridisegnare
+        scacchiera.visualizza(on_click=on_click)
+
+# Funzioni per posizionare i pezzi
+def metti_alfiere(scacchiera: Scacchiera):
+    #bianchi
+    scacchiera.metti(Alfiere("W"), ['H', 3])
+    scacchiera.metti(Alfiere("W"), ['H', 6])
+    #neri
+    scacchiera.metti(Alfiere("B"), ['A', 3])
+    scacchiera.metti(Alfiere("B"), ['A', 6])
+
+def metti_torre(scacchiera: Scacchiera):
+    #bianchi
+    scacchiera.metti(Torre("W"), ['H', 1])
+    scacchiera.metti(Torre("W"), ['H', 8])
+    #neri
+    scacchiera.metti(Torre("B"), ['A', 1])
+    scacchiera.metti(Torre("B"), ['A', 8])
+
+def metti_cavallo(scacchiera: Scacchiera):
+    #bianchi
+    scacchiera.metti(Cavallo("W"), ['H', 2])
+    scacchiera.metti(Cavallo("W"), ['H', 7])
+    #neri
+    scacchiera.metti(Cavallo("B"), ['A', 2])
+    scacchiera.metti(Cavallo("B"), ['A', 7])
+
+def metti_pedone():
+    pass
+
+def metti_re():
+    pass
+
+def metti_regina():
+    pass
+
+#TODO: gestire la mano
+#TODO: fare le directory ordinate
+#TODO: scrivere commenti
+if __name__ == "__main__":
+    scacchiera = Scacchiera()
+    metti_alfiere(scacchiera)
+    metti_torre(scacchiera)
+    #metti_pedone(scacchiera)
+
+    #metti_re(scacchiera)
+
+    #metti_regina(scacchiera)
+    metti_cavallo(scacchiera)
+    scacchiera.visualizza(on_click=on_click)
