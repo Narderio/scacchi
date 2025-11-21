@@ -44,13 +44,11 @@ def metti_cavallo():
 
 
 def metti_pedone(scacchiera: Scacchiera):
-    # bianchi sulla B
-    for c in range(1, 9):
-        scacchiera.metti(Pedone("W"), ['B', c])
+    for col in range(1, 9):
+        scacchiera.metti(Pedone("W"), ['B', col])
 
-    # neri sulla G
-    for c in range(1, 9):
-        scacchiera.metti(Pedone("B"), ['G', c])
+    for col in range(1, 9):
+        scacchiera.metti(Pedone("B"), ['G', col])
 
 def metti_re():
     pass
@@ -168,13 +166,17 @@ if __name__ == "__main__":
         # 5) PROMOZIONE
         if isinstance(pezzo, Pedone):
             r, c = destinazione
+
             if (pezzo.colore == "W" and r == 'H') or (pezzo.colore == "B" and r == 'A'):
-                print("PROMOZIONE del pedone!")
+
+                print("Promozione del pedone!")
+
                 while True:
                     scelta = input("Promuovi in (Q,R,B,N): ").upper()
                     if scelta in {"Q", "R", "B", "N"}:
                         break
                     print("Scelta non valida.")
+
                 nuovo = pezzo.promuovi(scelta)
                 scacchiera.togli(destinazione)
                 scacchiera.metti(nuovo, destinazione)

@@ -17,7 +17,7 @@ class Pedone(Pezzo):
 
     def __init__(self, colore, posizione=None):
         super().__init__(colore, posizione, 'Pedone')
-        self.graphic_rep = '\u2659' if self.colore == 'W' else '\u265F'
+        self.graphic_rep = '\u265F' if self.colore == 'W' else '\u2659'
         self.ha_fatto_doppio_passo = False
 
     def verifica_mossa(self, destinazione):
@@ -29,19 +29,17 @@ class Pedone(Pezzo):
         r1, c1 = destinazione
 
         delta_riga = ord(r1) - ord(r0)
-        delta_colonna = c1 - c0
+        delta_col = c1 - c0
 
-        # direzione dei pedoni
-        direzione = 1 if self.colore == 'W' else -1
+        direzione = +1 if self.colore == "W" else -1
 
         pezzo_dest = self.scacchiera.get_pezzo(destinazione)
 
         # Movimento verticale senza cattura
-        if delta_colonna == 0:
+        if delta_col == 0:
 
-            # casella occupata → non può avanzare
             if pezzo_dest is not None:
-                print("Il pedone non può avanzare su una casella occupata.")
+                print("Il pedone non può avanzare su casella occupata.")
                 return False
 
             # passo singolo
@@ -51,16 +49,14 @@ class Pedone(Pezzo):
 
             # doppio passo
             if delta_riga == 2 * direzione:
-                riga_iniziale = 'B' if self.colore == 'W' else 'G'
+                riga_iniziale = 'B' if self.colore == "W" else 'G'
 
                 if r0 != riga_iniziale:
-                    print("Il doppio passo è consentito solo dalla riga iniziale.")
                     return False
 
-                # verifica casella intermedia
+                # controllo casella intermedia
                 casella_intermedia = [chr(ord(r0) + direzione), c0]
                 if self.scacchiera.get_pezzo(casella_intermedia) is not None:
-                    print("La casella intermedia è occupata.")
                     return False
 
                 self.ha_fatto_doppio_passo = True
@@ -68,17 +64,12 @@ class Pedone(Pezzo):
 
             return False
 
-        # Cattura diagonale
-        if abs(delta_colonna) == 1 and delta_riga == direzione:
+        # Cattura diagonale o en passant
+        if abs(delta_col) == 1 and delta_riga == direzione:
 
             # cattura normale
             if pezzo_dest is not None:
-                if pezzo_dest.colore != self.colore:
-                    self.ha_fatto_doppio_passo = False
-                    return True
-                else:
-                    print("Non puoi catturare un tuo pezzo.")
-                    return False
+                return pezzo_dest.colore != self.colore
 
             # en passant
             casella_adiacente = [r0, c1]
@@ -94,7 +85,6 @@ class Pedone(Pezzo):
 
             return False
 
-        # mossa non valda
         return False
 
     def promuovi(self, scelta):
