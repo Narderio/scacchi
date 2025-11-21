@@ -1,21 +1,17 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 @authors: Dario/Sofia/Maria/Alessandro
 """
 
-from Alfiere import Alfiere
-from Pezzo import Pezzo
-from Torre import Torre
-from Cavallo import Cavallo
+from scacchiera.pezzi.alfiere import Alfiere
+from scacchiera.pezzo import Pezzo
+from scacchiera.pezzi.torre import Torre
+from scacchiera.pezzi.cavallo import Cavallo
 
 
 class Pedone(Pezzo):
     """
     implementa il Pedone
     """
-
-
     def __init__(self, colore, posizione=None):
         super().__init__(colore, posizione, 'Pedone')
         self.graphic_rep = '\u265F' if self.colore == 'W' else '\u2659'

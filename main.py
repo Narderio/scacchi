@@ -1,13 +1,16 @@
-import matplotlib.pyplot as plt
-from Scacchiera import Scacchiera
-from Torre import Torre
-from Alfiere import Alfiere
-from Cavallo import Cavallo
-from pedone import Pedone
-
 """
 @authors: Dario/Sofia/Maria/Alessandro
 """
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from scacchiera.scacchiera import Scacchiera
+from scacchiera.pezzi.torre import Torre
+from scacchiera.pezzi.alfiere import Alfiere
+from scacchiera.pezzi.cavallo import Cavallo
+from scacchiera.pezzi.pedone import Pedone
+
 
 # Variabili globali per la selezione
 selezione = {'partenza': None, 'destinazione': None}
@@ -41,8 +44,7 @@ def on_click(event):
         pezzo = scacchiera.get_pezzo(selezione['partenza'])
         if pezzo and pezzo.verifica_mossa(selezione['destinazione']):
 
-            #gestione della mosssa del pedone "EN PASSANT"
-            # --- EN PASSANT ---
+            # Gestione della mossa del pedone "EN PASSANT"
             if isinstance(pezzo, Pedone):
                 r0, c0 = selezione['partenza']
                 r1, c1 = selezione['destinazione']
@@ -58,7 +60,6 @@ def on_click(event):
                         ):
                             print("Cattura en passant!")
                             scacchiera.togli(casella_adiacente)
-            # --- FINE EN PASSANT ---
 
             if scacchiera.get_pezzo(selezione['destinazione']) is not None:
                 scacchiera.togli(selezione['destinazione'])
@@ -66,7 +67,6 @@ def on_click(event):
             scacchiera.metti(pezzo, selezione['destinazione'])
 
             # Gestione della promozione del pedone
-            # --- PROMOZIONE PEDONE ---
             if isinstance(pezzo, Pedone):
                 r, c = selezione['destinazione']
                 if (pezzo.colore == "W" and r == 'H') or (pezzo.colore == "B" and r == 'A'):
@@ -79,7 +79,6 @@ def on_click(event):
                     nuovo = pezzo.promuovi(scelta)
                     scacchiera.togli(selezione['destinazione'])
                     scacchiera.metti(nuovo, selezione['destinazione'])
-            # --- FINE PROMOZIONE ---
 
             print(f"Mossa: {selezione['partenza']} -> {selezione['destinazione']}")
         else:
@@ -90,7 +89,7 @@ def on_click(event):
 
 # Funzioni per posizionare i pezzi
 def metti_alfiere(scacchiera: Scacchiera):
-    '''
+    """
         Mette gli alfieri all'inizio della partita sulla scacchiera
 
         Parameters
@@ -101,7 +100,7 @@ def metti_alfiere(scacchiera: Scacchiera):
         Returns
         -------
         None.
-    '''
+    """
     #bianchi
     scacchiera.metti(Alfiere("W"), ['H', 3])
     scacchiera.metti(Alfiere("W"), ['H', 6])
@@ -110,7 +109,7 @@ def metti_alfiere(scacchiera: Scacchiera):
     scacchiera.metti(Alfiere("B"), ['A', 6])
 
 def metti_torre(scacchiera: Scacchiera):
-    '''
+    """
         Mette le torri all'inizio della partita sulla scacchiera
 
         Parameters
@@ -121,7 +120,7 @@ def metti_torre(scacchiera: Scacchiera):
         Returns
         -------
         None.
-    '''
+    """
     #bianchi
     scacchiera.metti(Torre("W"), ['H', 1])
     scacchiera.metti(Torre("W"), ['H', 8])

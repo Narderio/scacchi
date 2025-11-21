@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov 10 10:19:01 2022
-
 @authors: Dario/Sofia/Maria/Alessandro
 """
 
@@ -77,7 +73,7 @@ class Scacchiera:
 
         Parameters
         ----------
-        pezzo : Pezzo
+        pezzo : pezzo
             pezzo da posizionare
         posizione : coppia di coordinate
             posizione in cui posizionare il pezzo

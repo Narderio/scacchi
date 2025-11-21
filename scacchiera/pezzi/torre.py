@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 14 10:10:02 2022
-
 @authors: Dario/Sofia/Maria/Alessandro
 """
 
-from Pezzo import Pezzo
+from scacchiera.pezzo import Pezzo
 
 
 class Torre(Pezzo):

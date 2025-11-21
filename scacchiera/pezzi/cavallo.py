@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 21 2025
-
 @authors: Dario/Sofia/Maria/Alessandro
 """
 
-from Pezzo import Pezzo
+from scacchiera.pezzo import Pezzo
 
 class Cavallo(Pezzo):
     """
