@@ -88,8 +88,11 @@ def metti_cavallo(scacchiera: Scacchiera):
     scacchiera.metti(Cavallo("B"), ['A', 2])
     scacchiera.metti(Cavallo("B"), ['A', 7])
 
-def metti_pedone():
-    pass
+def metti_pedone(schacchiera: Scacchiera):
+    for col in range(1, 9):
+        scacchiera.metti(Pedone("W"), ['B', col])
+    for col in range(1, 9):
+        scacchiera.metti(Pedone("B"), ['G', col])
 
 def metti_re():
     pass
@@ -104,7 +107,7 @@ if __name__ == "__main__":
     scacchiera = Scacchiera()
     metti_alfiere(scacchiera)
     metti_torre(scacchiera)
-    #metti_pedone(scacchiera)
+    metti_pedone(scacchiera)
 
     #metti_re(scacchiera)
 
