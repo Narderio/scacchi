@@ -3,7 +3,7 @@
 """
 Created on Thu Nov 20 10:10:02 2025
 
-@author: assistant
+@authors: Dario/Sofia/Maria/Alessandro
 """
 
 from Pezzo import Pezzo

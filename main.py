@@ -3,14 +3,18 @@ from Scacchiera import Scacchiera
 from Torre import Torre
 from Alfiere import Alfiere
 from Cavallo import Cavallo
-from pedone import Pedone  # aggiungi import pedone
+from pedone import Pedone
+
+"""
+@authors: Dario/Sofia/Maria/Alessandro
+"""
 
 # Variabili globali per la selezione
 selezione = {'partenza': None, 'destinazione': None}
 scacchiera = None  # sarà inizializzata nel main
 
 def coord_da_click(event):
-    """Traduci coordinate matplotlib in coordinate scacchiera."""
+    """Traduce coordinate matplotlib in coordinate scacchiera."""
     if event.inaxes is None:
         return None
     col = int(round(event.xdata))
@@ -36,6 +40,8 @@ def on_click(event):
         selezione['destinazione'] = pos
         pezzo = scacchiera.get_pezzo(selezione['partenza'])
         if pezzo and pezzo.verifica_mossa(selezione['destinazione']):
+
+            #gestione della mosssa del pedone "EN PASSANT"
             # --- EN PASSANT ---
             if isinstance(pezzo, Pedone):
                 r0, c0 = selezione['partenza']
@@ -59,6 +65,7 @@ def on_click(event):
             scacchiera.togli(selezione['partenza'])
             scacchiera.metti(pezzo, selezione['destinazione'])
 
+            # Gestione della promozione del pedone
             # --- PROMOZIONE PEDONE ---
             if isinstance(pezzo, Pedone):
                 r, c = selezione['destinazione']
@@ -83,6 +90,18 @@ def on_click(event):
 
 # Funzioni per posizionare i pezzi
 def metti_alfiere(scacchiera: Scacchiera):
+    '''
+        Mette gli alfieri all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
     #bianchi
     scacchiera.metti(Alfiere("W"), ['H', 3])
     scacchiera.metti(Alfiere("W"), ['H', 6])
@@ -91,6 +110,18 @@ def metti_alfiere(scacchiera: Scacchiera):
     scacchiera.metti(Alfiere("B"), ['A', 6])
 
 def metti_torre(scacchiera: Scacchiera):
+    '''
+        Mette le torri all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
     #bianchi
     scacchiera.metti(Torre("W"), ['H', 1])
     scacchiera.metti(Torre("W"), ['H', 8])
@@ -99,6 +130,18 @@ def metti_torre(scacchiera: Scacchiera):
     scacchiera.metti(Torre("B"), ['A', 8])
 
 def metti_cavallo(scacchiera: Scacchiera):
+    '''
+        Mette i cavalli all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
     #bianchi
     scacchiera.metti(Cavallo("W"), ['H', 2])
     scacchiera.metti(Cavallo("W"), ['H', 7])
@@ -106,7 +149,19 @@ def metti_cavallo(scacchiera: Scacchiera):
     scacchiera.metti(Cavallo("B"), ['A', 2])
     scacchiera.metti(Cavallo("B"), ['A', 7])
 
-def metti_pedone(schacchiera: Scacchiera):
+def metti_pedone(scacchiera: Scacchiera):
+    '''
+        Mette i pedoni all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
     for col in range(1, 9):
         scacchiera.metti(Pedone("W"), ['B', col])
     for col in range(1, 9):
@@ -121,6 +176,7 @@ def metti_regina():
 #TODO: gestire la mano
 #TODO: fare le directory ordinate
 #TODO: scrivere commenti
+#TODO: scrivere README
 if __name__ == "__main__":
     scacchiera = Scacchiera()
     metti_alfiere(scacchiera)

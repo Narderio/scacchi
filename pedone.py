@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Pedone completo:
-- Movimento base, doppio passo, cattura, en passant
-- Promozione dinamica (Q, R, B, N)
+@authors: Dario/Sofia/Maria/Alessandro
 """
 
 from Alfiere import Alfiere
 from Pezzo import Pezzo
 from Torre import Torre
 from Cavallo import Cavallo
-# from Regina import Regina
 
 
 class Pedone(Pezzo):
+    """
+    implementa il Pedone
+    """
+
 
     def __init__(self, colore, posizione=None):
         super().__init__(colore, posizione, 'Pedone')
@@ -21,6 +22,19 @@ class Pedone(Pezzo):
         self.ha_fatto_doppio_passo = False
 
     def verifica_mossa(self, destinazione):
+        """
+        Verifica se il pedone può essere mosso alla destinazione
+
+        Parameters
+        ----------
+        destinazione : coppia di coordinate (list)
+            posizione di destinazione della mossa
+
+        Returns
+        -------
+        bool
+            indica se la mossa è legale o no
+        """
 
         if not super().verifica_mossa(destinazione):
             return False

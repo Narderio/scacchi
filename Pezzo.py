@@ -3,7 +3,7 @@
 """
 Created on Thu Nov 10 10:10:02 2022
 
-@author: iannello
+@authors: Dario/Sofia/Maria/Alessandro
 """
 
 class Pezzo:
