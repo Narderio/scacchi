@@ -1,9 +1,9 @@
-
 import matplotlib.pyplot as plt
 from Scacchiera import Scacchiera
 from Torre import Torre
 from Alfiere import Alfiere
 from Cavallo import Cavallo
+from pedone import Pedone  # aggiungi import pedone
 
 # Variabili globali per la selezione
 selezione = {'partenza': None, 'destinazione': None}
@@ -40,6 +40,22 @@ def on_click(event):
                 scacchiera.togli(selezione['destinazione'])
             scacchiera.togli(selezione['partenza'])
             scacchiera.metti(pezzo, selezione['destinazione'])
+
+            # --- PROMOZIONE PEDONE ---
+            if isinstance(pezzo, Pedone):
+                r, c = selezione['destinazione']
+                if (pezzo.colore == "W" and r == 'H') or (pezzo.colore == "B" and r == 'A'):
+                    print("Promozione del pedone!")
+                    while True:
+                        scelta = input("Promuovi in (Q,R,B,N): ").upper()
+                        if scelta in {"Q", "R", "B", "N"}:
+                            break
+                        print("Scelta non valida.")
+                    nuovo = pezzo.promuovi(scelta)
+                    scacchiera.togli(selezione['destinazione'])
+                    scacchiera.metti(nuovo, selezione['destinazione'])
+            # --- FINE PROMOZIONE ---
+
             print(f"Mossa: {selezione['partenza']} -> {selezione['destinazione']}")
         else:
             print("Mossa non valida")
