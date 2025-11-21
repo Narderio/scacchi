@@ -175,8 +175,8 @@ def metti_regina():
 
 #TODO: gestire la mano
 #TODO: fare le directory ordinate
-#TODO: scrivere commenti
 #TODO: scrivere README
+#TODO: scrivere requirements
 if __name__ == "__main__":
     scacchiera = Scacchiera()
     metti_alfiere(scacchiera)
