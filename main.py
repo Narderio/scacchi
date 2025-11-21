@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 10 10:42:39 2022
+Created on Mon Nov 10 10:42:39 2022
 
 @author: iannello
 
 """
 
 from Scacchiera import Scacchiera
-from Pezzo import Pezzo
 from Torre import Torre
 from Alfiere import Alfiere
+from pedone import Pedone
 
 def metti_alfiere(scacchiera: Scacchiera):
     #bianchi
@@ -42,17 +42,18 @@ def metti_torre(scacchiera: Scacchiera):
 def metti_cavallo():
     pass
 
-def metti_pedone():
-    pass
+
+def metti_pedone(scacchiera: Scacchiera):
+    for col in "ABCDEFGH":
+        scacchiera.metti(Pedone("W"), [col, 2])
+    for col in "ABCDEFGH":
+        scacchiera.metti(Pedone("B"), [col, 7])
 
 def metti_re():
     pass
 
 def metti_regina():
     pass
-
-
-
 
 
 def in_board(posizione):
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     
     metti_torre(scacchiera)
     
-    #metti_pedone(scacchiera)
+    metti_pedone(scacchiera)
 
     #metti_re(scacchiera)
 
@@ -137,11 +138,45 @@ if __name__ == "__main__":
                 print(f'La mossa non è valida: la casella di partenza è vuota')
             elif pezzo.verifica_mossa(destinazione):  # la mossa è legale
                 break
+        # 2) EN PASSANT
+        if isinstance(pezzo, Pedone):
+            col_o, row_o = partenza
+            col_d, row_d = destinazione
+            diagonale = abs(ord(col_d) - ord(col_o)) == 1 and (row_d - row_o != 0)
+
+            if diagonale and scacchiera.get_pezzo(destinazione) is None:
+                casella_vicino = [col_d, row_o]
+                pedone_vicino = scacchiera.get_pezzo(casella_vicino)
+                if (
+                    pedone_vicino is not None
+                    and isinstance(pedone_vicino, Pedone)
+                    and pedone_vicino.colore != pezzo.colore
+                    and pedone_vicino.ha_fatto_doppio_passo
+                ):
+                    print("Cattura en passant!")
+                    scacchiera.togli(casella_vicino)
+
         # esegui mossa sulla scacchiera
         if not scacchiera.get_pezzo(destinazione) is None:  # la casella è occupata
             scacchiera.togli(destinazione)  # "mangia" il pezzo che occupa la casella
         scacchiera.togli(partenza)
         scacchiera.metti(pezzo, destinazione)
+
+        # 5) PROMOZIONE CON SCELTA
+        if isinstance(pezzo, Pedone):
+            col, row = destinazione
+            if (pezzo.colore == "W" and row == 8) or (pezzo.colore == "B" and row == 1):
+                print("Promozione del pedone!")
+                while True:
+                    scelta = input("Scegli la nuova pedina (Q=Regina, R=Torre, B=Alfiere, N=Cavallo): ").upper()
+                    if scelta in {"Q", "R", "B", "N"}:
+                        break
+                    print("Scelta non valida.")
+
+                nuovo = pezzo.promuovi(scelta)
+                scacchiera.togli(destinazione)
+                scacchiera.metti(nuovo, destinazione)
+                print(f"Il pedone è stato promosso a {nuovo.nome}!")
 
         scacchiera.visualizza()
         print()
