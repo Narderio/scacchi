@@ -9,8 +9,8 @@ Pedone completo:
 from Alfiere import Alfiere
 from Pezzo import Pezzo
 from Torre import Torre
+from Cavallo import Cavallo
 # from Regina import Regina
-#from Cavallo import Cavallo
 
 
 class Pedone(Pezzo):
@@ -95,11 +95,9 @@ class Pedone(Pezzo):
         """
         if scelta == "R":
             return Torre(self.colore, self.posizione)
-        """
         elif scelta == "N":
-            #return Cavallo(self.colore, self.posizione)
-        """
-        if scelta == "B":
+            return Cavallo(self.colore, self.posizione)
+        elif scelta == "B":
             return Alfiere(self.colore, self.posizione)
         else:
             raise ValueError("Scelta promozione non valida.")
