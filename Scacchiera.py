@@ -3,8 +3,12 @@
 """
 Created on Thu Nov 10 10:19:01 2022
 
-@author: iannello
+@author: iannello/Sofia
 """
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.colors import ListedColormap
 
 class Scacchiera:
     """
@@ -105,23 +109,35 @@ class Scacchiera:
         """
         return self.pezzi[posizione[0]][posizione[1]-1]
     
-    def visualizza(self):
+    def visualizza(self, on_click=None):
         """
-        visualizza sullo standard output lo stato della scacchiera
-
-        Returns
-        -------
-        None.
-
+        Visualizza la scacchiera e i pezzi su matplotlib.
+        Se on_click è fornito, lo usa come callback per i click.
         """
-        print()
-        print('    1   2   3   4   5   6   7   8')
-        for col in self.piano.keys():
-            print('  +---+---+---+---+---+---+---+---+')
-            row_rep = f'{col} |'
-            for row in range(8):
-                row_rep += ' ' + self.piano[col][row] + ' |'
-            print(row_rep)
-        print('  +---+---+---+---+---+---+---+---+')
+        board = np.tile((1,0), (8,4))
+        for pos in range(board.shape[0]):
+            board[pos] = np.roll(board[pos], pos % 2 )
+        cm = ListedColormap(["#0C6104", "#545459FF"])
+        fig, ax = plt.subplots()
+        ax.imshow(board, cmap=cm)
+        ax.set_xticks(np.arange(8))
+        ax.set_yticks(np.arange(8))
+        ax.set_xticklabels([str(i) for i in range(0,8)])
+        ax.set_yticklabels(['A','B','C','D','E','F','G','H'])
+        ax.tick_params(length=0)
+        # Disegna i pezzi
+        for col_idx, col in enumerate(self.piano.keys()):
+            for row_idx in range(8):
+                pezzo = self.piano[col][row_idx]
+                if pezzo != ' ':
+                    ax.text(col_idx, 7-row_idx, pezzo, ha='center', va='center', fontsize=32)
+        # Griglia
+        ax.set_xlim(-0.5,7.5)
+        ax.set_ylim(-0.5,7.5)
+        ax.grid(False)
+        # Gestione click
+        if on_click:
+            fig.canvas.mpl_connect('button_press_event', on_click)
+        plt.show()
 
-        
+

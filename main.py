@@ -117,6 +117,8 @@ def get_mossa():
             print(f'La partenza e/o la destinazione della mossa {mossa} non corrispondono a caselle della scacchiera')
 
 #TODO: gestire la mano
+#TODO: fare le directory ordinate
+#TODO: scrivere commenti
 if __name__ == "__main__":
     # setup del gioco
     scacchiera = Scacchiera()
