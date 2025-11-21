@@ -11,6 +11,7 @@ from Scacchiera import Scacchiera
 from Pezzo import Pezzo
 from Torre import Torre
 from Alfiere import Alfiere
+from Cavallo import Cavallo
 
 def metti_alfiere(scacchiera: Scacchiera):
     #bianchi
@@ -39,8 +40,18 @@ def metti_torre(scacchiera: Scacchiera):
     torre4= Torre("B")
     scacchiera.metti(torre4, ['A', 8])
 
-def metti_cavallo():
-    pass
+def metti_cavallo(scacchiera: Scacchiera):
+    # bianchi
+    cavallo1 = Cavallo("W")
+    scacchiera.metti(cavallo1, ['H', 2])
+    cavallo2 = Cavallo("W")
+    scacchiera.metti(cavallo2, ['H', 7])
+
+    # neri
+    cavallo3 = Cavallo("B")
+    scacchiera.metti(cavallo3, ['A', 2])
+    cavallo4 = Cavallo("B")
+    scacchiera.metti(cavallo4, ['A', 7])
 
 def metti_pedone():
     pass
@@ -105,7 +116,7 @@ def get_mossa():
         else:
             print(f'La partenza e/o la destinazione della mossa {mossa} non corrispondono a caselle della scacchiera')
 
-
+#TODO: gestire la mano
 if __name__ == "__main__":
     # setup del gioco
     scacchiera = Scacchiera()
@@ -121,7 +132,7 @@ if __name__ == "__main__":
 
     #metti_regina(scacchiera)
 
-    #metti_cavallo(scacchiera)
+    metti_cavallo(scacchiera)
 
     scacchiera.visualizza()
     print()
