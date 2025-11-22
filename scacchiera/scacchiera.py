@@ -116,10 +116,16 @@ class Scacchiera:
         cm = ListedColormap(["#0C6104", "#545459FF"])
         fig, ax = plt.subplots()
         ax.imshow(board, cmap=cm)
+        # Coordinate corrette
         ax.set_xticks(np.arange(8))
         ax.set_yticks(np.arange(8))
-        ax.set_xticklabels([str(i) for i in range(0,8)])
-        ax.set_yticklabels(['A','B','C','D','E','F','G','H'])
+
+        # Colonne A–H
+        ax.set_xticklabels(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
+
+        # Righe 8–1 (invertite perché la grafica parte dall'alto)
+        ax.set_yticklabels(['8', '7', '6', '5', '4', '3', '2', '1'])
+
         ax.tick_params(length=0)
         # Disegna i pezzi
         for col_idx, col in enumerate(self.piano.keys()):
