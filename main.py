@@ -1,21 +1,25 @@
 """
 @authors: Dario/Sofia/Maria/Alessandro
 """
-import matplotlib
-matplotlib.use("TkAgg")
 
+import matplotlib
+
+from scacchiera.pezzi.regina import Regina
+
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from scacchiera.scacchiera import Scacchiera
 from scacchiera.pezzi.torre import Torre
 from scacchiera.pezzi.alfiere import Alfiere
 from scacchiera.pezzi.cavallo import Cavallo
 from scacchiera.pezzi.pedone import Pedone
-from scacchiera.pezzi.regina import Regina
-
 
 # Variabili globali per la selezione
 selezione = {'partenza': None, 'destinazione': None}
 scacchiera = None  # sarà inizializzata nel main
+
+# Variabile globale per la gestione del turno di gioco
+turno = "W"
 
 def coord_da_click(event):
     """Traduce coordinate matplotlib in coordinate scacchiera."""
@@ -31,12 +35,14 @@ def coord_da_click(event):
 
 def on_click(event):
     """Gestione click per selezionare e muovere pezzi."""
-    global selezione, scacchiera
+    global selezione, scacchiera,turno
     pos = coord_da_click(event)
     if pos is None:
         return
     if selezione['partenza'] is None:
         pezzo = scacchiera.get_pezzo(pos)
+        if pezzo is not None and pezzo.colore != turno:
+            return print(f"Non puoi muovere un pezzo del colore {pezzo.colore}")
         if pezzo is not None:
             selezione['partenza'] = pos
             print(f"Selezionata partenza: {pos}")
@@ -62,22 +68,11 @@ def on_click(event):
                             print("Cattura en passant!")
                             scacchiera.togli(casella_adiacente)
 
-            pezzo_dest = scacchiera.get_pezzo(selezione['destinazione'])
-
-            # Se il pezzo di destinazione esiste e NON è dello stesso colore → mangio
-            if pezzo_dest is not None:
-                if pezzo_dest.colore != pezzo.colore:
-                    scacchiera.togli(selezione['destinazione'])
-                else:
-                    print("Non puoi mangiare un pezzo dello stesso colore!")
-                    selezione = {'partenza': None, 'destinazione': None}
-                    plt.close()
-                    scacchiera.visualizza(on_click=on_click)
-                    return
-
-            # Sposta il pezzo
+            if scacchiera.get_pezzo(selezione['destinazione']) is not None:
+                scacchiera.togli(selezione['destinazione'])
             scacchiera.togli(selezione['partenza'])
             scacchiera.metti(pezzo, selezione['destinazione'])
+            turno = "B" if turno == "W" else "W"
 
             # Gestione della promozione del pedone
             if isinstance(pezzo, Pedone):
@@ -202,11 +197,6 @@ def metti_regina(scacchiera: Scacchiera):
     regina2 = Regina("B")
     scacchiera.metti(regina2, ['A', 4])
 
-
-#TODO: gestire la mano
-#TODO: fare le directory ordinate
-#TODO: scrivere README
-#TODO: scrivere requirements
 if __name__ == "__main__":
     scacchiera = Scacchiera()
     metti_alfiere(scacchiera)
