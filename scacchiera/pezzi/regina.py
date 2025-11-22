@@ -5,8 +5,7 @@ Created on Thu Nov 14 10:10:02 2022
 
 @author: iannello
 """
-
-from Pezzo import Pezzo
+from scacchiera.pezzo import Pezzo
 
 
 class Regina(Pezzo):
