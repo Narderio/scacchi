@@ -7,6 +7,7 @@ sulla scacchiera controllando che siano legali
 
 
 # AVVIO
+E' consigliata la versione di Python 3.12
 
 Per eseguire il progetto seguire questi passaggi:
 
