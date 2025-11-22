@@ -75,6 +75,16 @@ def on_click(event):
             scacchiera.metti(pezzo, selezione['destinazione'])
             turno = "B" if turno == "W" else "W"
 
+            # Controlla se il giocatore avversario è sotto scacco matto
+            colore_avversario = "B" if turno == "W" else "W"
+            if scacchiera.re_sotto_scacco_matto(colore_avversario):
+                vincitore = "Bianco" if colore_avversario == "B" else "Nero"
+                print(f"SCACCO MATTO! Il giocatore {vincitore} ha vinto!")
+                return  # Termina il gioco
+            elif scacchiera.re_sotto_scacco(colore_avversario):
+                print(f"SCACCO! Il re {colore_avversario} è sotto scacco.")
+
+
             # Gestione della promozione del pedone
             if isinstance(pezzo, Pedone):
                 r, c = selezione['destinazione']
