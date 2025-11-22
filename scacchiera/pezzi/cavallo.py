@@ -14,7 +14,7 @@ class Cavallo(Pezzo):
     def __init__(self, colore, posizione=None):
         super().__init__(colore, posizione, 'Cavallo')
         # Imposta la rappresentazione Unicode del cavallo bianco (♘) o nero (♞)
-        self.graphic_rep = '\u2658' if self.colore == 'W' else '\u265e'
+        self.graphic_rep = '\u265e' if self.colore == 'W' else '\u2658'
 
     def verifica_mossa(self, destinazione):
         """

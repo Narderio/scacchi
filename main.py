@@ -110,11 +110,11 @@ def metti_alfiere(scacchiera: Scacchiera):
         None.
     """
     #bianchi
-    scacchiera.metti(Alfiere("W"), ['H', 3])
-    scacchiera.metti(Alfiere("W"), ['H', 6])
+    scacchiera.metti(Alfiere("B"), ['H', 3])
+    scacchiera.metti(Alfiere("B"), ['H', 6])
     #neri
-    scacchiera.metti(Alfiere("B"), ['A', 3])
-    scacchiera.metti(Alfiere("B"), ['A', 6])
+    scacchiera.metti(Alfiere("W"), ['A', 3])
+    scacchiera.metti(Alfiere("W"), ['A', 6])
 
 def metti_torre(scacchiera: Scacchiera):
     """
@@ -130,11 +130,11 @@ def metti_torre(scacchiera: Scacchiera):
         None.
     """
     #bianchi
-    scacchiera.metti(Torre("W"), ['H', 1])
-    scacchiera.metti(Torre("W"), ['H', 8])
+    scacchiera.metti(Torre("W"), ['A', 1])
+    scacchiera.metti(Torre("W"), ['A', 8])
     #neri
-    scacchiera.metti(Torre("B"), ['A', 1])
-    scacchiera.metti(Torre("B"), ['A', 8])
+    scacchiera.metti(Torre("B"), ['H', 1])
+    scacchiera.metti(Torre("B"), ['H', 8])
 
 def metti_cavallo(scacchiera: Scacchiera):
     '''
@@ -150,11 +150,11 @@ def metti_cavallo(scacchiera: Scacchiera):
         None.
     '''
     #bianchi
-    scacchiera.metti(Cavallo("W"), ['H', 2])
-    scacchiera.metti(Cavallo("W"), ['H', 7])
+    scacchiera.metti(Cavallo("W"), ['A', 2])
+    scacchiera.metti(Cavallo("W"), ['A', 7])
     #neri
-    scacchiera.metti(Cavallo("B"), ['A', 2])
-    scacchiera.metti(Cavallo("B"), ['A', 7])
+    scacchiera.metti(Cavallo("B"), ['H', 2])
+    scacchiera.metti(Cavallo("B"), ['H', 7])
 
 def metti_pedone(scacchiera: Scacchiera):
     '''
@@ -192,10 +192,10 @@ def metti_regina(scacchiera: Scacchiera):
     '''
     # bianchi
     regina1 = Regina("W")
-    scacchiera.metti(regina1, ['H', 4])
+    scacchiera.metti(regina1, ['A', 4])
     # neri
     regina2 = Regina("B")
-    scacchiera.metti(regina2, ['A', 4])
+    scacchiera.metti(regina2, ['H', 4])
 
 if __name__ == "__main__":
     scacchiera = Scacchiera()
