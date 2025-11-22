@@ -4,6 +4,7 @@
 
 import matplotlib
 
+from scacchiera.pezzi.re import Re
 from scacchiera.pezzi.regina import Regina
 
 matplotlib.use('TkAgg')
@@ -174,8 +175,27 @@ def metti_pedone(scacchiera: Scacchiera):
     for col in range(1, 9):
         scacchiera.metti(Pedone("B"), ['G', col])
 
-def metti_re():
-    pass
+def metti_re(scacchiera: Scacchiera):
+    '''
+        Mette i re all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
+    #bianchi
+    scacchiera.metti(Re("W"), ['A', 5])
+
+    #neri
+    scacchiera.metti(Re("B"), ['H', 5])
+
+
+
 
 def metti_regina(scacchiera: Scacchiera):
     '''
@@ -203,7 +223,7 @@ if __name__ == "__main__":
     metti_torre(scacchiera)
     metti_pedone(scacchiera)
 
-    #metti_re(scacchiera)
+    metti_re(scacchiera)
 
     metti_regina(scacchiera)
     metti_cavallo(scacchiera)
