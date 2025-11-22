@@ -1,15 +1,16 @@
 """
 @authors: Dario/Sofia/Maria/Alessandro
 """
-
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use("TkAgg")
+
 import matplotlib.pyplot as plt
 from scacchiera.scacchiera import Scacchiera
 from scacchiera.pezzi.torre import Torre
 from scacchiera.pezzi.alfiere import Alfiere
 from scacchiera.pezzi.cavallo import Cavallo
 from scacchiera.pezzi.pedone import Pedone
+from scacchiera.pezzi.regina import Regina
 
 
 # Variabili globali per la selezione
@@ -61,8 +62,20 @@ def on_click(event):
                             print("Cattura en passant!")
                             scacchiera.togli(casella_adiacente)
 
-            if scacchiera.get_pezzo(selezione['destinazione']) is not None:
-                scacchiera.togli(selezione['destinazione'])
+            pezzo_dest = scacchiera.get_pezzo(selezione['destinazione'])
+
+            # Se il pezzo di destinazione esiste e NON è dello stesso colore → mangio
+            if pezzo_dest is not None:
+                if pezzo_dest.colore != pezzo.colore:
+                    scacchiera.togli(selezione['destinazione'])
+                else:
+                    print("Non puoi mangiare un pezzo dello stesso colore!")
+                    selezione = {'partenza': None, 'destinazione': None}
+                    plt.close()
+                    scacchiera.visualizza(on_click=on_click)
+                    return
+
+            # Sposta il pezzo
             scacchiera.togli(selezione['partenza'])
             scacchiera.metti(pezzo, selezione['destinazione'])
 
@@ -169,8 +182,26 @@ def metti_pedone(scacchiera: Scacchiera):
 def metti_re():
     pass
 
-def metti_regina():
-    pass
+def metti_regina(scacchiera: Scacchiera):
+    '''
+        Mette le regine all'inizio della partita sulla scacchiera
+
+        Parameters
+        ----------
+        scacchiera : Scacchiera
+            scacchiera su cui mettere i pezzi
+
+        Returns
+        -------
+        None.
+    '''
+    # bianchi
+    regina1 = Regina("W")
+    scacchiera.metti(regina1, ['H', 4])
+    # neri
+    regina2 = Regina("B")
+    scacchiera.metti(regina2, ['A', 4])
+
 
 #TODO: gestire la mano
 #TODO: fare le directory ordinate
@@ -184,6 +215,6 @@ if __name__ == "__main__":
 
     #metti_re(scacchiera)
 
-    #metti_regina(scacchiera)
+    metti_regina(scacchiera)
     metti_cavallo(scacchiera)
     scacchiera.visualizza(on_click=on_click)
